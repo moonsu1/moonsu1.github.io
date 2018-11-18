@@ -19,15 +19,13 @@ $$K(x_i,x_j)=\phi(x_i)^T\phi(x_i)$$
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/geometric-PCA-5-and-6-first-component-with-projections-and-second-component.png?raw=true" alt="geometric-PCA-5-and-6-first-component-with-projections-and-second-component.png)
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/geometric-PCA-7-and-8-second-component-and-both-components.png?raw=true" alt="geometric-PCA-7-and-8-second-component-and-both-components.png)
 
-　PCA에서 데이터를 projection하는 축(compoenet)에 대하여 좀 더 자세히 살펴보겠습니다. 이 축은 '데이터의 분산을 최대한 보존하는 특성을 갖는다'라고 앞서 언급한 바 있는데요. 이를 도식화 하면 다음([출처](http://alexhwilliams.info/itsneuronalblog/2016/03/27/pca/)) 그림의 왼쪽과 같습니다.
-![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/pca_two_views.png?raw=true" alt="pca_two_views.png)
+　PCA에서 데이터를 projection하는 축(compoenet)에 대하여 좀 더 자세히 살펴보겠습니다. 이 축은 '데이터의 분산을 최대한 보존하는 특성을 갖는다'라고 앞서 언급한 바 있는데요. 이는 곧 '데이터와 preojected data의 거리(residual)를 최소화하는 특성을 갖는다'는 말과 같다고 볼 수 있습니다. 원데이터의 분산(D3), 축에 의해 보존되는 분산(D1)과 projection 과정에서 손실되는 분산(D2)은 다음([출처](http://alexhwilliams.info/itsneuronalblog/2016/03/27/pca/))과 같은 관계에 있기 때문입니다.
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/projection_intuition.png?raw=true" alt="projection_intuition.png)
+
+　다시 말해 PCA의 목적은 데이터의 분산을 최대한 보존하는, 데이터와 preojected data의 거리를 최소화하는 linear subspace를 찾는 것입니다. 그런데 PCA를 다음([출처](https://www.analyticsvidhya.com/blog/2017/03/questions-dimensionality-reduction-data-scientist/))과 같은 비선형 데이터에 적용하면, projection 과정에서 많은 양의 분산(D2)이 손실될 것입니다. ++따라서 PCA는 비선형 데이터에 적합하지 않은 한계점을 갖습니다.++
+
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/pca_linear.png?raw=true" alt="pca_linear.png)
- PCA를 통해 저차원 공간 상에 projection되는 data point가 공분산행렬의 eigenvector(위 그림의 component)와 원데이터의 선형 결합을 통해 생성된다는 것입니다.
- ++정리하면, PCA는 데이터의 분산을 최대한 보존하고 선형 데이터에 적합한 한계점을 갖습니다.++ 
 
 #### Kernel PCA
-　Kernel PCA는 비선형 kernel function을 통해 데이터를 고차원 공간에 mapping한 뒤, 고차원 공간에서 PCA를 수행함으로써 다시 저차원 공간에 projection하는 기법입니다. 아래 그림(출처: Pattern recognition and Machine Learning, Bishop)을 보면, 원데이터는 
+　이와 같은 한계점의 대안으로, Kenel PCA를 사용할 수 있습니다. Kernel PCA는 비선형 kernel function Φ을 통해 데이터를 고차원 공간에 mapping한 뒤, 고차원 공간에서 PCA를 수행함으로써 다시 저차원 공간에 projection하는 기법입니다. 
  ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/kpca.png?raw=true" alt="kpca.png)
- 
-###### Kernel PCA를 통한 projected dataset
