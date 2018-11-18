@@ -21,3 +21,5 @@ $$K(x_i,x_j)=\phi(x_i)^T\phi(x_i)$$
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/geometric-PCA-7-and-8-second-component-and-both-components.png?raw=true" alt="geometric-PCA-7-and-8-second-component-and-both-components.png)
 
 #### Kernel PCA
+　Kernel PCA는 데이터를 선형 분류가 가능한 고차원 공간에 mapping한 뒤, PCA를 통해 다시 저차원 공간에 projection하는 기법입니다.
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/kpca.png?raw=true" alt="kpca.png)
