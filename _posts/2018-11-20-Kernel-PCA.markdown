@@ -245,7 +245,7 @@ plt.show()
 ```
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/swiss.png?raw=true" alt="swiss.png)
 
-　앞서 살펴보았던 하프문, 동심원 데이터는 2차원 상의 데이터였는데요. 이번에는 3차원의 스위스 롤 데이터에 Linear PCA, Gaussian RBF kernel PCA과 polynomial PCA를 적용한 결과를 비교해 보고자 합니다.
+　앞서 살펴보았던 하프문, 동심원 데이터는 2차원 상의 데이터였는데요. 이번에는 3차원의 스위스 롤 데이터에 Linear PCA, Gaussian RBF kernel PCA과 polynomial kernel PCA를 적용한 결과를 비교해 보고자 합니다.
 ``` ruby
 scikit_pca = PCA(n_components=2)
 X_spca = scikit_pca.fit_transform(X)
