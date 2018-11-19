@@ -2,7 +2,6 @@
 title:  "Kernel PCA"
 categories: [jekyll]
 tags: [Kernel PCA, PCA, Kernel]
-use_math: true
 ---
 
 *본 포스팅의 주요 내용은 고려대학교 강필성 교수님의 강의를 정리하여 작성하였습니다.*
