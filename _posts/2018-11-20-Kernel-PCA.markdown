@@ -29,7 +29,7 @@ $$K(x_i,x_j)=\phi(x_i)^T\phi(x_i)$$
 
 　다시 말해 PCA의 목적은 데이터의 분산을 최대한 보존하는, data point와 preojected data의 거리를 최소화하는 linear subspace를 찾는 것입니다. 그런데 PCA를 비선형 데이터에 적용하면 어떻게 될까요? 아래 그림([출처](https://www.analyticsvidhya.com/blog/2017/03/questions-dimensionality-reduction-data-scientist/))은 PCA와 비선형 차원 축소 기법인 Self Organizing Map(SOM)에 비선형 데이터를 적용한 결과를 비교하여 보여주고 있습니다. 그림에서 볼 수 있듯이, SOM을 이용하면 많은 양의 분산을 설명할 수 있습니다. 반면에, PCA를 이용하여 데이터를 파란 축에 projection하면 많은 양의 분산($D_2$)이 손실될 것입니다. 따라서 **PCA는 비선형 데이터에 적합하지 않은 한계점을 갖습니다.**
 
-<center>![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/pca_linear.png?raw=true" alt="pca_linear.png)</center>
+{: refdef: style="text-align: center;"}![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/pca_linear.png?raw=true" alt="pca_linear.png){: refdef}
 
 ## Kernel PCA
  ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/kpca.png?raw=true" alt="kpca.png)
@@ -90,6 +90,7 @@ $$=K-1_NK-K1_N+1_NK1_N$$
 
 ### Kernel PCA Using Python
 　여러 데이터 셋을 Kernel PCA와 Linear PCA에 적용해 보고 그 결과를 비교해 보았습니다. 코드는 [이곳](https://sebastianraschka.com/Articles/2014_kernel_pca.html)을 참고하였습니다.
+　**1. 하프문 데이터**
 ``` ruby
 import pandas as pd
 import numpy as np
