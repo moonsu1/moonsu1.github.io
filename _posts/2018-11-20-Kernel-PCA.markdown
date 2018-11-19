@@ -44,7 +44,7 @@ $$m^\phi={1 \over N}\sum_{i=1}^N\phi(x_i)=0$$
 
 $$C^\phi={1 \over N}\sum_{i=1}^N(\phi(x_i)-m^\phi)(\phi(x_i)-m^\phi)^T={1 \over N}\sum_{i=1}^N\phi(x_i)\phi(x_i)^T$$
 
-　공분산행렬 C의 eigenvalue $\lambda_k$와 eigenvector $\v_k$는 다음과 같이 구할 수 있습니다.
+　공분산행렬 C의 eigenvalue $\lambda_k$와 eigenvector $v_k$는 다음과 같이 구할 수 있습니다.
 
 $$C^\phi v_k=\lambda_k v_k$$
 
@@ -52,7 +52,7 @@ $$C^\phi v_k=\lambda_k v_k$$
 
 $${1 \over N}\sum_{i=1}^N\phi(x_i)\phi(x_i)^Tv_k=\lambda_k v_k$$
 
-　아래 식에서 $\phi(x_i)v_k$은 scalar이기 때문에 공분산행렬 C의 eigenvector $\v_k$는 아래와 같이 고차원 상에 mapping된 data point들의 선형 결합으로 표현이 가능합니다.
+　아래 식에서 $\phi(x_i)v_k$은 scalar이기 때문에 공분산행렬 C의 eigenvector $v_k$는 아래와 같이 고차원 상에 mapping된 data point들의 선형 결합으로 표현이 가능합니다.
 
 $$v_k={1 \over \lambda N}\sum_{i=1}^N\phi(x_i)\phi(x_i)^Tv_k={1 \over \lambda N}\sum_{i=1}^N\phi(x_i)v_k\phi(x_i)^T$$
 
@@ -82,9 +82,14 @@ $$K\alpha_k=\lambda_k N \alpha_k$$
 
 $$y_k(x)=\phi(x)^Tv_k=\sum_{i=1}^N\alpha_{ki}K(x,x_i)$$
 
+　지금까지의 진행 과정은 고차원 공간(feature space) 상에 mapping된 data point가 centering되어 있는 경우에 해당하는데요. data point가 centering되어 있지 않은 경우에는 아래와 같이 feature space에서 데이터를 표준화하는 과정을 거치게 됩니다. 아래 식에서 $I_N$은 모든 원소의 값이 $1 \over N$으로 이루어진 N X N 행렬을 의미합니다. 
+
+$$\tilde{K}=(I-1_N)K(I-1_N)$$
+
+$$=K-1_NK-K1_N+1_NK1_N$$
 
 ### Kernel PCA Using Python
-　아이리스 데이터를 이용하여 linear PCA와 Kernel PCA의 결과를 비교해 보았습니다. 파이썬 코드는 아래와 같습니다.
+　여러 데이터 셋을 Kernel PCA와 Linear PCA에 적용해 보고 그 결과를 비교해 보았습니다. 코드는 [이곳](https://sebastianraschka.com/Articles/2014_kernel_pca.html)을 참고하였습니다.
 ``` ruby
 import pandas as pd
 import numpy as np
