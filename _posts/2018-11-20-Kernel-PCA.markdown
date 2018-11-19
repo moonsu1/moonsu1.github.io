@@ -23,11 +23,11 @@ $$K(x_i,x_j)=\phi(x_i)^T\phi(x_i)$$
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/geometric-PCA-5-and-6-first-component-with-projections-and-second-component.png?raw=true" alt="geometric-PCA-5-and-6-first-component-with-projections-and-second-component.png)
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/geometric-PCA-7-and-8-second-component-and-both-components.png?raw=true" alt="geometric-PCA-7-and-8-second-component-and-both-components.png)
 
-　PCA에서 데이터를 projection하는 축(compoenet)에 대하여 좀 더 자세히 살펴보겠습니다. 이 축은 '데이터의 분산을 최대한 보존하는 특성을 갖는다'라고 앞서 언급한 바 있는데요. 이는 곧 '데이터와 preojected data의 거리(residual)를 최소화하는 특성을 갖는다'는 말과 같다고 볼 수 있습니다. 원데이터의 분산(D3), 축에 의해 보존되는 분산(D1)과 projection 과정에서 손실되는 분산(D2)은 다음([출처](http://alexhwilliams.info/itsneuronalblog/2016/03/27/pca/))과 같은 관계에 있기 때문입니다.
+　PCA에서 데이터를 projection하는 축(compoenet)에 대하여 좀 더 자세히 살펴보겠습니다. 이 축은 '데이터의 분산을 최대한 보존하는 특성을 갖는다'라고 앞서 언급한 바 있는데요. 이는 곧 'data point와 projected data의 거리(residual)를 최소화하는 특성을 갖는다'는 말과 같다고 볼 수 있습니다. 원데이터의 분산(D3), 축에 의해 보존되는 분산(D1)과 projection 과정에서 손실되는 분산(D2)은 다음([출처](http://alexhwilliams.info/itsneuronalblog/2016/03/27/pca/))과 같은 관계에 있기 때문입니다.
 
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/projection_intuition.png?raw=true" alt="projection_intuition.png)
 
-　다시 말해 PCA의 목적은 데이터의 분산을 최대한 보존하는, 데이터와 preojected data의 거리를 최소화하는 linear subspace를 찾는 것입니다. 그런데 PCA를 비선형 데이터에 적용하면 어떻게 될까요? 아래 그림([출처](https://www.analyticsvidhya.com/blog/2017/03/questions-dimensionality-reduction-data-scientist/))은 PCA와 비선형 차원 축소 기법인 Self Organizing Map(SOM)에 비선형 데이터를 적용한 결과를 비교하여 보여주고 있습니다. 그림에서 볼 수 있듯이, 아래 데이터를 파란 색의 축에 projection하면 많은 양의 분산(D2)이 손실될 것입니다. 따라서 **PCA는 비선형 데이터에 적합하지 않은 한계점을 갖습니다.**
+　다시 말해 PCA의 목적은 데이터의 분산을 최대한 보존하는, data point와 preojected data의 거리를 최소화하는 linear subspace를 찾는 것입니다. 그런데 PCA를 비선형 데이터에 적용하면 어떻게 될까요? 아래 그림([출처](https://www.analyticsvidhya.com/blog/2017/03/questions-dimensionality-reduction-data-scientist/))은 PCA와 비선형 차원 축소 기법인 Self Organizing Map(SOM)에 비선형 데이터를 적용한 결과를 비교하여 보여주고 있습니다. 그림에서 볼 수 있듯이, 아래 데이터를 파란 색의 축에 projection하면 많은 양의 분산(D2)이 손실될 것입니다. 따라서 **PCA는 비선형 데이터에 적합하지 않은 한계점을 갖습니다.**
 
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/pca_linear.png?raw=true" alt="pca_linear.png)
 
@@ -62,21 +62,26 @@ $${1 \over N}\sum_{i=1}^N\phi(x_i)\phi(x_i)^T\sum_{j=1}^N\alpha_{kj}\phi(x_j)=\l
 
 $${1 \over N}\sum_{i=1}^N\phi(x_i)\sum_{j=1}^N\alpha_{kj}\phi(x_i)^T\phi(x_j)=\lambda_k \sum_{i=1}^N\alpha_{kj}\phi(x_i)$$
 
-앞서 Kernel Trick 파트에서 말씀드린 바와 같이, 고차원 mapping은 많은 연산량이 소요된다는 문제가 있기 때문에 Kernel PCA에서도 Kernel Trick을 사용하게 됩니다. 이를 위해 먼저 Kernel function을 정의합니다.
+　앞서 Kernel Trick 파트에서 말씀드린 바와 같이, 고차원 mapping은 많은 연산량이 소요된다는 문제가 있기 때문에 Kernel PCA에서도 Kernel Trick을 사용하게 됩니다. 이를 위해 먼저 Kernel function을 정의합니다.
 
 $$K(x_i,x_j)=\phi(x_i)^T\phi(x_j)$$
 
-양 변에 Φ(xl)을 곱하여 위에서 정의한 kernel function으로 치환합니다.
+　양 변에 
+$$\phi(x_i)$$
+을 곱하여 고차원 상에서의 data point들의 내적 값인 
+$$\phi(x_i)^T\phi(x_j)$$
+을 위에서 정의한 kernel function으로 치환합니다.
 
 $${1 \over N}\sum_{i=1}^N\phi(x_l)^T\phi(x_i)\sum_{j=1}^N\alpha_{kj}\phi(x_i)^T\phi(x_j)=\lambda_k \sum_{i=1}^N\alpha_{kj}\phi(x_l)^T\phi(x_i)$$
 
 $${1 \over N}\sum_{i=1}^NK(x_l, x_i)\sum_{j=1}^N\alpha_{kj}K(x_i, x_l)=\lambda_k \sum_{i=1}^N\alpha_{kj}K(x_l, x_i)$$
 
-위 식을 matirix notation을 이용하여 정리하면 다음과 같습니다. (Finding the eigenvector vk is equivalent to finding the coefficients alphak)
+　위 식을 matirix notation을 이용하여 정리하면 다음과 같습니다.
 
 $$K^2\alpha_k=\lambda_k N K \alpha_k$$
 
 $$K\alpha_k=\lambda_k N \alpha_k$$
+
 　따라서, Kernel PCA의 수행 결과는 다음과 같이 정리할 수 있습니다.
 
 $$y_k(x)=\phi(x)^Tv_k=\sum_{i=1}^N\alpha_{ki}K(x,x_i)$$
