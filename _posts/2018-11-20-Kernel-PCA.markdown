@@ -90,6 +90,7 @@ $$=K-1_NK-K1_N+1_NK1_N$$
 
 ### Kernel PCA Using Python
 　여러 데이터 셋을 Kernel PCA와 Linear PCA에 적용해 보고 그 결과를 비교해 보았습니다. 코드는 [이곳](https://sebastianraschka.com/Articles/2014_kernel_pca.html)을 참고하였습니다.
+ 
 　**1. Half-moon shapes**
 ``` ruby
 %matplotlib inline
@@ -269,7 +270,7 @@ plt.xlabel('PC1')
 plt.ylabel('PC2')
 plt.show()
 ```
-![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/swiss_kpca.png?raw=true" alt="swiss_kpca.png)
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/swiss_rbf.png?raw=true" alt="swiss_rbf.png)
 ``` ruby
 scikit_kpca = KernelPCA(n_components=2, kernel='poly', gamma=0.1)
 X_skernpca = scikit_kpca.fit_transform(X)
