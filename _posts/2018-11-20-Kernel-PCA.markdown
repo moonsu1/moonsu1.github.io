@@ -29,7 +29,7 @@ $$K(x_i,x_j)=\phi(x_i)^T\phi(x_i)$$
 
 　다시 말해 PCA의 목적은 데이터의 분산을 최대한 보존하는, data point와 preojected data의 거리를 최소화하는 linear subspace를 찾는 것입니다. 그런데 PCA를 비선형 데이터에 적용하면 어떻게 될까요? 아래 그림([출처](https://www.analyticsvidhya.com/blog/2017/03/questions-dimensionality-reduction-data-scientist/))은 PCA와 비선형 차원 축소 기법인 Self Organizing Map(SOM)에 비선형 데이터를 적용한 결과를 비교하여 보여주고 있습니다. 그림에서 볼 수 있듯이, SOM을 이용하면 많은 양의 분산을 설명할 수 있습니다. 반면에, PCA를 이용하여 데이터를 파란 축에 projection하면 많은 양의 분산($D_2$)이 손실될 것입니다. 따라서 **PCA는 비선형 데이터에 적합하지 않은 한계점을 갖습니다.**
 
-{: refdef: style="text-align: center;"}![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/pca_linear.png?raw=true" alt="pca_linear.png){: refdef}
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/pca_linear.png?raw=true" alt="pca_linear.png)
 
 ## Kernel PCA
  ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/kpca.png?raw=true" alt="kpca.png)
@@ -90,48 +90,196 @@ $$=K-1_NK-K1_N+1_NK1_N$$
 
 ### Kernel PCA Using Python
 　여러 데이터 셋을 Kernel PCA와 Linear PCA에 적용해 보고 그 결과를 비교해 보았습니다. 코드는 [이곳](https://sebastianraschka.com/Articles/2014_kernel_pca.html)을 참고하였습니다.
-　**1. 하프문 데이터**
+　**1. Half-moon shapes**
 ``` ruby
-import pandas as pd
-import numpy as np
+%matplotlib inline
+import matplotlib.pyplot as plt
 
-# 아이리스 데이터를 불러옵니다.
-df = pd.read_csv(
-    filepath_or_buffer='https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data',
-    header=None,
-    sep=',')
+#하프문 데이터 생성
+from sklearn.datasets import make_moons
+X, y = make_moons(n_samples=100, random_state=123)
 
-df.columns = ['sepal_len', 'sepal_wid', 'petal_len', 'petal_wid', 'class']
+plt.figure(figsize=(8,6))
 
-#X, y 변수를 지정합니다.
-X = df.iloc[:,0:4].values
-y = df.iloc[:,4].values
+plt.scatter(X[y==0, 0], X[y==0, 1], color='red', alpha=0.5)
+plt.scatter(X[y==1, 0], X[y==1, 1], color='blue', alpha=0.5)
+
+plt.title('A nonlinear 2Ddataset')
+plt.ylabel('y coordinate')
+plt.xlabel('x coordinate')
+
+plt.show()
 ```
-　polynomial kernel을 이용한 Kernel PCA 결과입니다. 
-``` ruby
-from sklearn.decomposition import KernelPCA
-kpca0 = KernelPCA(n_components=2, kernel='poly')
-Y = kpca0.fit_transform(X)
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/halfmoon.png?raw=true" alt="halfmoon.png)
 
-with plt.style.context("seaborn-darkgrid"):
-    for l in label:
-        plt.scatter(Y[y==l,0], Y[y==l,1],label=l)
-    plt.xlabel("PC 1")
-    plt.ylabel("PC 2")
-    plt.legend()
-    plt.show()
-```
-　linear PCA 결과입니다.
+　위 그림에서 볼 수 있듯, 하프문 데이터는 선형 분류가 불가능한 데이터입니다. 이러한 비선형 데이터에 Linear PCA를 적용하면 다음과 같은 결과가 나타납니다.
 ``` ruby
 from sklearn.decomposition import PCA
-pca = PCA(n_components=2)
-Y_ = pca.fit_transform(X)
 
-with plt.style.context("seaborn-darkgrid"):
-    for l in label:
-        plt.scatter(Y_[y==l,0], Y_[y==l,1],label=l)
-    plt.xlabel("PC 1")
-    plt.ylabel("PC 2")
-    plt.legend()
-    plt.show()
+scikit_pca = PCA(n_components=2)
+X_spca = scikit_pca.fit_transform(X)
+
+plt.figure(figsize=(8,6))
+plt.scatter(X_spca[y==0, 0], X_spca[y==0, 1], color='red', alpha=0.5)
+plt.scatter(X_spca[y==1, 0], X_spca[y==1, 1], color='blue', alpha=0.5)
+
+plt.title('First 2 principal components after Linear PCA')
+plt.xlabel('PC1')
+plt.ylabel('PC2')
+plt.show()
 ```
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/halfmoon_pca.png?raw=true" alt="halfmoon_pca.png)
+``` ruby
+import numpy as np
+scikit_pca = PCA(n_components=1)
+X_spca = scikit_pca.fit_transform(X)
+
+plt.figure(figsize=(8,6))
+plt.scatter(X_spca[y==0, 0], np.zeros((50,1)), color='red', alpha=0.5)
+plt.scatter(X_spca[y==1, 0], np.zeros((50,1)), color='blue', alpha=0.5)
+
+plt.title('First principal component after Linear PCA')
+plt.xlabel('PC1')
+
+plt.show()
+```
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/halfmoon_pca_2.png?raw=true" alt="halfmoon_pca_2.png)
+
+　첫번째 그림은 Linear PCA의 결과로 얻어지는 두 개의 주성분 축에 데이터를 projection한 결과를, 두번째 그림은 첫 번째 주성분 축에 데이터를 projection한 결과를 보여줍니다. Linear PCA 결과, 데이터를 선형 분류하는 것은 여전히 불가능합니다. 그렇다면 Kernel PCA를 사용하면 어떤 상반된 결과가 도출될까요? 하프문 데이터에 Gaussian RBF kernel PCA을 사용한 결과는 다음과 같습니다.
+``` ruby
+from sklearn.decomposition import KernelPCA
+
+scikit_kpca = KernelPCA(n_components=2, kernel='rbf', gamma=15)
+X_skernpca = scikit_kpca.fit_transform(X)
+
+plt.figure(figsize=(8,6))
+plt.scatter(X_skernpca[y==0, 0], X_skernpca[y==0, 1], color='red', alpha=0.5)
+plt.scatter(X_skernpca[y==1, 0], X_skernpca[y==1, 1], color='blue', alpha=0.5)
+
+plt.text(-0.48, 0.35, 'gamma = 15', fontsize=12)
+plt.title('First 2 principal components after RBF Kernel PCA via scikit-learn')
+plt.xlabel('PC1')
+plt.ylabel('PC2')
+plt.show()
+```
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/halfmoon_kpca.png?raw=true" alt="halfmoon_kpca.png)
+``` ruby
+scikit_kpca = KernelPCA(n_components=1, kernel='rbf', gamma=15)
+X_skernpca = scikit_kpca.fit_transform(X)
+
+plt.figure(figsize=(8,6))
+plt.scatter(X_skernpca[y==0, 0], np.zeros((50,1)), color='red', alpha=0.5)
+plt.scatter(X_skernpca[y==1, 0], np.zeros((50,1)), color='blue', alpha=0.5)
+plt.text(-0.48, 0.007, 'gamma = 15', fontsize=12)
+plt.title('First principal component after RBF Kernel PCA')
+plt.xlabel('PC1')
+plt.show()
+```
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/halfmoon_kpca_2.png?raw=true" alt="halfmoon_kpca_2.png)
+
+　PCA에서와 마찬가지로, 첫번째 그림은 Gaussian RBF kernel PCA의 결과로 얻어지는 두 개의 주성분 축에 데이터를 projection한 결과를, 두번째 그림은 첫 번째 주성분 축에 데이터를 projection한 결과를 보여줍니다. Linear PCA와 달리, 선형 분류가 가능해 졌음을 확인할 수 있습니다.
+
+　**2. Concentric circles**
+``` ruby
+from sklearn.datasets import make_circles
+
+X, y = make_circles(n_samples=1000, random_state=123, noise=0.1, factor=0.2)
+
+plt.figure(figsize=(8,6))
+
+#동심원 데이터 생성
+plt.scatter(X[y==0, 0], X[y==0, 1], color='red', alpha=0.5)
+plt.scatter(X[y==1, 0], X[y==1, 1], color='blue', alpha=0.5)
+plt.title('Concentric circles')
+plt.ylabel('y coordinate')
+plt.xlabel('x coordinate')
+plt.show()
+```
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/concentric.png?raw=true" alt="concentric.png)
+
+　동심원 데이터 역시 선형 분류가 불가능한 데이터 입니다. 이 데이터에 Linear PCA와 Gaussian RBF kernel PCA를 적용하여 각각의 첫번째 주성분 축에 데이터를 projection한 결과는 다음과 같습니다.
+``` ruby
+scikit_pca = PCA(n_components=2)
+X_spca = scikit_pca.fit_transform(X)
+
+plt.figure(figsize=(8,6))
+plt.scatter(X[y==0, 0], np.zeros((500,1))+0.1, color='red', alpha=0.5)
+plt.scatter(X[y==1, 0], np.zeros((500,1))-0.1, color='blue', alpha=0.5)
+plt.ylim([-15,15])
+plt.text(-0.125, 12.5, 'gamma = 15', fontsize=12)
+plt.title('First principal component after Linear PCA')
+plt.xlabel('PC1')
+plt.show()
+```
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/concentric_pca.png?raw=true" alt="concentric_pca.png)
+``` ruby
+scikit_kpca = KernelPCA(n_components=1, kernel='rbf', gamma=15)
+X_skernpca = scikit_kpca.fit_transform(X)
+
+plt.figure(figsize=(8,6))
+plt.scatter(X_skernpca[y==0, 0], np.zeros((500,1)), color='red', alpha=0.5)
+plt.scatter(X_skernpca[y==1, 0], np.zeros((500,1)), color='blue', alpha=0.5)
+plt.text(-0.05, 0.007, 'gamma = 15', fontsize=12)
+plt.title('First principal component after RBF Kernel PCA')
+plt.xlabel('PC1')
+plt.show()
+```
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/concentric_kpca.png?raw=true" alt="concentric_kpca.png)
+
+Linear PCA와 달리, Gaussian RBF kernel PCA를 시행한 결과 데이터의 선형 분류가 가능해 졌음을 알 수 있습니다.
+
+　**3. Swiss roll**
+``` ruby
+from sklearn.datasets.samples_generator import make_swiss_roll
+from mpl_toolkits.mplot3d import Axes3D
+
+#스위스 롤 데이터 생성
+X, color = make_swiss_roll(n_samples=800, random_state=123)
+
+fig = plt.figure(figsize=(7,7))
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=color, cmap=plt.cm.rainbow)
+plt.title('Swiss Roll in 3D')
+plt.show()
+```
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/swiss.png?raw=true" alt="swiss.png)
+
+　앞서 살펴보았던 하프문, 동심원 데이터는 2차원 상의 데이터였는데요. 이번에는 3차원의 스위스 롤 데이터에 Linear PCA, Gaussian RBF kernel PCA과 polynomial PCA를 적용한 결과를 비교해 보고자 합니다.
+``` ruby
+scikit_pca = PCA(n_components=2)
+X_spca = scikit_pca.fit_transform(X)
+
+plt.figure(figsize=(8,6))
+plt.scatter(X_spca[:, 0], X_spca[:, 1], c=color, cmap=plt.cm.rainbow)
+plt.title('First 2 principal component after Linear PCA')
+plt.xlabel('PC1')
+plt.ylabel('PC2')
+plt.show()
+```
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/swiss_pca.png?raw=true" alt="swiss_pca.png)
+``` ruby
+scikit_kpca = KernelPCA(n_components=2, kernel='rbf', gamma=0.1)
+X_skernpca = scikit_kpca.fit_transform(X)
+
+plt.figure(figsize=(8,6))
+plt.scatter(X_skernpca[:, 0], X_skernpca[:, 1], c=color, cmap=plt.cm.rainbow)
+
+plt.title('First 2 principal components after RBF Kernel PCA')
+plt.xlabel('PC1')
+plt.ylabel('PC2')
+plt.show()
+```
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/swiss_kpca.png?raw=true" alt="swiss_kpca.png)
+``` ruby
+scikit_kpca = KernelPCA(n_components=2, kernel='poly', gamma=0.1)
+X_skernpca = scikit_kpca.fit_transform(X)
+
+plt.figure(figsize=(8,6))
+plt.scatter(X_skernpca[:, 0], X_skernpca[:, 1], c=color, cmap=plt.cm.rainbow)
+
+plt.title('First 2 principal components after polynomial Kernel PCA')
+plt.xlabel('PC1')
+plt.ylabel('PC2')
+plt.show()
+```
+![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/swiss_poly.png?raw=true" alt="swiss_poly.png)
