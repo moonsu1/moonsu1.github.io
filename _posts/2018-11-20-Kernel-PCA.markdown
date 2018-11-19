@@ -42,7 +42,7 @@ $$m^\phi={1 \over N}\sum_{i=1}^N\phi(x_i)=0$$
 
 $$C^\phi={1 \over N}\sum_{i=1}^N(\phi(x_i)-m^\phi)(\phi(x_i)-m^\phi)^T={1 \over N}\sum_{i=1}^N\phi(x_i)\phi(x_i)^T$$
 
-　공분산행렬 C의 eigenvalue λ와 eigenvector v는 다음과 같이 구할 수 있습니다.
+　공분산행렬 C의 eigenvalue λ $\lambda_k$ 와 eigenvector v는 다음과 같이 구할 수 있습니다.
 
 $$C^\phi v_k=\lambda_k v_k$$
 
