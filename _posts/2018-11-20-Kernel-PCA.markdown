@@ -27,9 +27,9 @@ $$K(x_i,x_j)=\phi(x_i)^T\phi(x_i)$$
 
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/projection_intuition.png?raw=true" alt="projection_intuition.png)
 
-　다시 말해 PCA의 목적은 데이터의 분산을 최대한 보존하는, data point와 preojected data의 거리를 최소화하는 linear subspace를 찾는 것입니다. 그런데 PCA를 비선형 데이터에 적용하면 어떻게 될까요? 아래 그림([출처](https://www.analyticsvidhya.com/blog/2017/03/questions-dimensionality-reduction-data-scientist/))은 PCA와 비선형 차원 축소 기법인 Self Organizing Map(SOM)에 비선형 데이터를 적용한 결과를 비교하여 보여주고 있습니다. 그림에서 볼 수 있듯이, 아래 데이터를 파란 색의 축에 projection하면 많은 양의 분산($D_2$)이 손실될 것입니다. 따라서 **PCA는 비선형 데이터에 적합하지 않은 한계점을 갖습니다.**
+　다시 말해 PCA의 목적은 데이터의 분산을 최대한 보존하는, data point와 preojected data의 거리를 최소화하는 linear subspace를 찾는 것입니다. 그런데 PCA를 비선형 데이터에 적용하면 어떻게 될까요? 아래 그림([출처](https://www.analyticsvidhya.com/blog/2017/03/questions-dimensionality-reduction-data-scientist/))은 PCA와 비선형 차원 축소 기법인 Self Organizing Map(SOM)에 비선형 데이터를 적용한 결과를 비교하여 보여주고 있습니다. 그림에서 볼 수 있듯이, SOM을 이용하면 많은 양의 분산을 설명할 수 있습니다. 반면에, PCA를 이용하여 데이터를 파란 축에 projection하면 많은 양의 분산($D_2$)이 손실될 것입니다. 따라서 **PCA는 비선형 데이터에 적합하지 않은 한계점을 갖습니다.**
 
-![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/pca_linear.png?raw=true" alt="pca_linear.png)
+<center>![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/pca_linear.png?raw=true" alt="pca_linear.png)</center>
 
 ## Kernel PCA
  ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/kpca.png?raw=true" alt="kpca.png)
@@ -82,7 +82,7 @@ $$K\alpha_k=\lambda_k N \alpha_k$$
 
 $$y_k(x)=\phi(x)^Tv_k=\sum_{i=1}^N\alpha_{ki}K(x,x_i)$$
 
-　지금까지의 진행 과정은 고차원 공간(feature space) 상에 mapping된 data point가 centering되어 있는 경우에 해당하는데요. data point가 centering되어 있지 않은 경우에는 아래와 같이 feature space에서 데이터를 표준화하는 과정을 거치게 됩니다. 아래 식에서 $I_N$은 모든 원소의 값이 $1 \over N$으로 이루어진 N X N 행렬을 의미합니다. 
+　지금까지의 진행 과정은 고차원 공간(feature space) 상에 mapping된 data point가 centering되어 있는 경우에 해당하는데요. data point가 centering되어 있지 않은 경우에는 아래와 같이 feature space에서 데이터를 표준화하는 과정을 거치게 됩니다. 아래 식에서 $1_N$은 모든 원소의 값이 $1 \over N$으로 이루어진 N X N 행렬을 의미합니다. 
 
 $$\tilde{K}=(I-1_N)K(I-1_N)$$
 
