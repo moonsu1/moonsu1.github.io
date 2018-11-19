@@ -15,6 +15,7 @@ tags: [Kernel PCA, PCA, Kernel]
 
 $$K(x_i,x_j)=\phi(x_i)^T\phi(x_i)$$
 
+
 #### PCA(Principal Component Analysis)
 　PCA는 차원 축소 기법 중 하나로, 주어진 데이터의 분산을 최대한 보존하면서 고차원 상의 데이터를 저차원 데이터로 변환하는 기법입니다. 아래 그림([출처](https://learnche.org/pid/latent-variable-modelling/principal-component-analysis/geometric-explanation-of-pca))에서와 같이 데이터의 분산을 최대한 보존하는, 서로 직교(orthogonal)하는 축(component)을 찾고 그 축에 데이터를 projection함으로써 데이터의 차원을 줄이는 동시에 데이터에 포함되어 있는 noise를 제거할 수 있습니다. 아래 예시에서는 3차원이었던 데이터를 2개의 축(1st component와 2nd component)에 projection함으로써 2차원 데이터로 변환하는 과정을 보여주고 있습니다.
 
@@ -33,28 +34,50 @@ $$K(x_i,x_j)=\phi(x_i)^T\phi(x_i)$$
  ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/kpca.png?raw=true" alt="kpca.png)
 　이와 같은 한계점의 대안으로, Kenel PCA를 사용할 수 있습니다. Kernel PCA의 핵심 아이디어는 비선형 kernel function Φ을 통해 데이터를 고차원 공간(F)에 mapping한 뒤, 고차원 공간(F)에서 PCA를 수행함으로써 다시 저차원 공간에 projection한다는 것입니다. Kernel PCA의 수행 과정을 수식으로 나타내면 다음과 같습니다.
 　먼저, 고차원 공간(feature space) 상에 mapping된 데이터가 centering되어 있어 평균이 0이라고 가정합니다.
+
 $$m^\phi={1 \over N}\sum_{i=1}^N\phi(x_i)=0$$
-　이 데이터의 평균이 0이기 때문에, 공분산행렬 C를 구하면 다음과 같습니다.
+
+이 데이터의 평균이 0이기 때문에, 공분산행렬 C를 구하면 다음과 같습니다.
+
 $$C^\phi={1 \over N}\sum_{i=1}^N(\phi(x_i)-m^\phi)(\phi(x_i)-m^\phi)^T={1 \over N}\sum_{i=1}^N\phi(x_i)\phi(x_i)^T$$
-　공분산행렬 C의 eigenvalue λ와 eigenvector v는 다음과 같이 구할 수 있습니다.
+
+공분산행렬 C의 eigenvalue λ와 eigenvector v는 다음과 같이 구할 수 있습니다.
+
 $$C^\phi v_k=\lambda_k v_k$$
-　위 식에 공분산행렬 C의 값을 대입합니다.
+
+위 식에 공분산행렬 C의 값을 대입합니다.
+
 $${1 \over N}\sum_{i=1}^N\phi(x_i)\phi(x_i)^Tv_k=\lambda_k v_k$$
-　여기에서 공분산행렬 C의 eigenvector v는 고차원 상에 mapping된 데이터들의 선형 결합으로 표현이 가능하며, 이를 위 식에 대입하면 아래와 같습니다. (because Φ(xi)vk is just a scalar)
+
+여기에서 공분산행렬 C의 eigenvector v는 고차원 상에 mapping된 데이터들의 선형 결합으로 표현이 가능하며, 이를 위 식에 대입하면 아래와 같습니다. (because Φ(xi)vk is just a scalar)
+
 $$v_k={1 \over \lambda N}\sum_{i=1}^N\phi(x_i)\phi(x_i)^Tv_k={1 \over \lambda N}\sum_{i=1}^N\phi(x_i)v_k\phi(x_i)^T$$
+
 $$=\sum_{i=1}^N\alpha_{ki}\phi(x_i)$$
+
 $${1 \over N}\sum_{i=1}^N\phi(x_i)\phi(x_i)^T\sum_{j=1}^N\alpha_{kj}\phi(x_j)=\lambda_k \sum_{i=1}^N\alpha_{kj}\phi(x_i)$$
+
 $${1 \over N}\sum_{i=1}^N\phi(x_i)\sum_{j=1}^N\alpha_{kj}\phi(x_i)^T\phi(x_j)=\lambda_k \sum_{i=1}^N\alpha_{kj}\phi(x_i)$$
-　앞서 Kernel Trick 파트에서 말씀드린 바와 같이, 고차원 mapping은 많은 연산량이 소요된다는 문제가 있기 때문에 Kernel PCA에서도 Kernel Trick을 사용하게 됩니다. 이를 위해 먼저 Kernel function을 정의합니다.
+
+앞서 Kernel Trick 파트에서 말씀드린 바와 같이, 고차원 mapping은 많은 연산량이 소요된다는 문제가 있기 때문에 Kernel PCA에서도 Kernel Trick을 사용하게 됩니다. 이를 위해 먼저 Kernel function을 정의합니다.
+
 $$K(x_i,x_j)=\phi(x_i)^T\phi(x_j)$$
-　양 변에 Φ(xl)을 곱하여 위에서 정의한 kernel function으로 치환합니다.
+
+양 변에 Φ(xl)을 곱하여 위에서 정의한 kernel function으로 치환합니다.
+
 $${1 \over N}\sum_{i=1}^N\phi(x_l)^T\phi(x_i)\sum_{j=1}^N\alpha_{kj}\phi(x_i)^T\phi(x_j)=\lambda_k \sum_{i=1}^N\alpha_{kj}\phi(x_l)^T\phi(x_i)$$
+
 $${1 \over N}\sum_{i=1}^NK(x_l, x_i)\sum_{j=1}^N\alpha_{kj}K(x_i, x_l)=\lambda_k \sum_{i=1}^N\alpha_{kj}K(x_l, x_i)$$
-　위 식을 matirix notation을 이용하여 정리하면 다음과 같습니다. (Finding the eigenvector vk is equivalent to finding the coefficients alphak)
+
+위 식을 matirix notation을 이용하여 정리하면 다음과 같습니다. (Finding the eigenvector vk is equivalent to finding the coefficients alphak)
+
 $$K^2\alpha_k=\lambda_k N K \alpha_k$$
+
 $$K\alpha_k=\lambda_k N \alpha_k$$
 　따라서, Kernel PCA의 수행 결과는 다음과 같이 정리할 수 있습니다.
+
 $$y_k(x)=\phi(x)^Tv_k=\sum_{i=1}^N\alpha_{ki}K(x,x_i)$$
+
 
 #### Python을 이용한 Kernel PCA 구현
 　아이리스 데이터를 이용하여 linear PCA와 Kernel PCA의 결과를 비교해 보았습니다. 파이썬 코드는 아래와 같습니다.
