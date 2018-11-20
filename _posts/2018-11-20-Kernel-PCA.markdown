@@ -298,4 +298,5 @@ plt.title('First 2 principal components after Locally Linear Embedding')
 plt.show()
 ```
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/swiss_lle.png?raw=true" alt="swiss_lle.png)
+
 　이번 포스팅에서는 비선형 차원축소 기법인 Kernel PCA 기법에 대해서 살펴 보았는데요. 다음 포스팅에서는 마지막 예제에서 보여드렸던 매니폴드 기반 차원축소 기법에 대해서 살펴 보도록 하겠습니다. 긴 글 읽어주셔서 감사합니다.
