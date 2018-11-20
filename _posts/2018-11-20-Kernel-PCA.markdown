@@ -285,9 +285,7 @@ plt.show()
 ```
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/swiss_poly.png?raw=true" alt="swiss_poly.png)
 
-　스위스 롤 데이터에 Linear PCA, Gaussian RBF kernel PCA과 polynomial kernel PCA를 적용한 결과, 세 기법 모두 스위스 롤 데이터를 펼친(unroll) 본질적인 특성을 보여주지는 못하고 있습니다. 이러한 한계점을 보완해 줄 있는 비선형 차원축소 기법이 Locally Linear Embedding(LLE)입니다. LLE는 데이터 간의 본질적 거리를 보존하면서 데이터를 고차원에서 저차원 상으로 축소시키는 기법으로, 매니폴드 학습(manifold learning)에 해당합니다. 다음 포스팅에서는 매니폴드 기반 차원축소 기법에 대해 살펴 보도록 하겠습니다.
- 
-　스위스 롤 데이터에 LLE 기법을 적용한 결과를 보여드리며 이번 포스팅을 마치겠습니다.
+　스위스 롤 데이터에 Linear PCA, Gaussian RBF kernel PCA과 polynomial kernel PCA를 적용한 결과, 세 기법 모두 스위스 롤 데이터를 펼친(unroll) 본질적인 특성을 보여주지는 못하고 있습니다. 이러한 한계점을 보완해 줄 있는 비선형 차원축소 기법이 Locally Linear Embedding(LLE)입니다. LLE는 데이터 간의 본질적 거리를 보존하면서 데이터를 고차원에서 저차원 상으로 축소시키는 기법으로, 매니폴드 학습(manifold learning)에 해당합니다. 스위스 롤 데이터에 LLE 기법을 적용한 결과는 다음과 같습니다.
 ``` ruby
 from sklearn.manifold import locally_linear_embedding
 
@@ -300,3 +298,4 @@ plt.title('First 2 principal components after Locally Linear Embedding')
 plt.show()
 ```
 ![](https://github.com/jieunchoi1120/jieunchoi1120.github.io/blob/master/images/post/swiss_lle.png?raw=true" alt="swiss_lle.png)
+　이번 포스팅에서는 비선형 차원축소 기법인 Kernel PCA 기법에 대해서 살펴 보았는데요. 다음 포스팅에서는 마지막 예제에서 보여드렸던 매니폴드 기반 차원축소 기법에 대해서 살펴 보도록 하겠습니다. 긴 글 읽어주셔서 감사합니다.
