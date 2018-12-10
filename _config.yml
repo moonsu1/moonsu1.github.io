@@ -1,5 +1,5 @@
 # Site settings
-title: seonghun Park
+title: moonsu Kim
 description: ''
 url: 'http://joshgerdes.com/jekyll-uno'
 baseurl: 
@@ -7,11 +7,11 @@ baseurl:
 # disqus_shortname: 'your-disqus-name'
 
 author:
-  name: 'seonghunPark'
-  email: pshv725@gmail.com
+  name: 'moonsuKim'
+  email: moonsu159@gmail.com
   twitter_username: joshgerdes
   facebook_username: joshgerdes
-  github_username:  seonghunPark
+  github_username:  moonsuKim
   linkedin_username:  joshgerdes
 
 defaults:
